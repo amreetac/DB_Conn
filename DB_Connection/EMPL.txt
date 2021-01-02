@@ -1,0 +1,40 @@
+use EMPL;
+
+db.employees.insertMany([
+    {id: 1,
+     name: "Ashley R",
+     phone: "772-889-3819",
+     role: "Accountant"},
+    {id: 2,
+     name: "Justin P",
+     phone: "123-456-7899",
+     role:"HR"}
+]);
+
+db.employees.find().pretty()
+
+db.daysoff.insertMany([
+   {days: 3,
+    reason: "sick",
+    whotoreportto:"Lead Accountant"
+    },
+   {days: 5,
+    reason: "wedding",
+    primary_author:"ULLMAN, JEFFREY D.",
+   whotoreportto:"HR"}
+]);
+
+db.employees.insertMany([
+    {id: 3,
+     name: "Jenn B",
+     phone: "172-889-3819",
+     salary: 40000,
+     ranking: 4,
+     role: "Sales"},
+    {id: 4,
+     name: "Anna M",
+     phone: "122-456-7899",
+     salary: 50000,
+     ranking: 5,
+     role:"HR"}
+]);

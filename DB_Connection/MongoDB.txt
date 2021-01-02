@@ -1,0 +1,166 @@
+MongoDB
+MongoDB Example 
+Great resource: https://university.mongodb.com/ 
+Install: https://www.youtube.com/watch?v=1uFY60CESlM 
+If you install properly, open two Command prompts. 
+C:\Program Files\MongoDB\Server\3.4\bin>mongod
+C:\Program Files\MongoDB\Server\3.4\bin>mongo 
+See: https://docs.mongodb.com/getting-started/shell/client/
+You can also install RoboMongo for a nicer interface.
+Go to https://docs.mongodb.com/manual/tutorial/ if you would like to get started and follow the instructions from the lecture for the coding part.
+/* Query 1 - Creating a database (dbs), inserting data and finding data
+ * -/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/- */
+
+// Start up a new database by switching to it.
+// NOTE: The db does not exist until you create a collection.
+use lessondb
+
+// Show the current db by running db.
+db
+
+// Insert data into the lessondb database with this command.
+// NOTE: This will create the collection automatically,
+// ALSO, TAKE NOTE: the contents of the insert are basically an object, and include an array.
+
+Use iWantToGoTo
+db.iWantToGoTo.insert({"continent": "Africa", "country":"Morocco", "majorcities": ["Casablanca", "Fez", "Marrakech"]})
+
+
+// Find all data in a Collection with db.[COLLECTION_NAME].find()
+// NOTE: the MongoDB _id was created automatically. 
+// This id is specific for each doc in the collection.
+
+db.iWantToGoTo.find()
+
+// Adding .pretty() makes the data more readable.
+db.iWantToGoToThere.find().pretty()
+
+// Find specific data by matching a field.
+db.iWantToGoTo.find({"continent": "Africa"}) 
+db.iWantToGoTo.find({"country": "Morocco"})
+
+
+// A. Use the command line to create a classroom database. 
+// Insert entries for yourself and the people in your row in a students collection. 
+// Each document should have:
+
+// 1. A field of name with the person's name.
+// 2. A field of rownumber which will contain the row number that they are in. Row 3
+// 3. A field of os which will contain the Operating System 
+//    of the computer they are using: 'Mac', 'Win', etc
+// 4. A field of hobbies with an array of the hobbies the person likes to do.
+
+// Example:
+use classroom2
+db.classroom2.insert({name: 'Steve', row:3, os:'Mac', hobbies:['Coding', 'Reading', 'Running'] })
+db.classroom2.insert({name: 'Jimmy', row:3, os:'Windows', hobbies:['MDA', 'Being awesome'] })
+	
+// B. Use find commands to get:
+// 1. A list of everyone in Row 3.
+db.classroom2.find({row:3})
+
+// 2. An entry for a single person.
+db.classroom2.find({name:'Steve'})
+
+// 3. The entries for all the Windows users
+db.classroom2.find({os:'Windows'})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Other exercises
+
+
+
+	// Show how to update data 
+	// using db.[COLLECTION_NAME].update()
+	db.iWantToGoTo.update({"country": "Morocco"}, {$set: {"continent":"Antartica"}})
+	// Note that the above will only update the first entry it matches. 
+	
+
+	// To update multiple entries, you need to add {multi:true}
+	db.iWantToGoTo.update({"country": "Morocco"}, {$set: {"continent":"Antartica"}}, {multi:true})
+	
+
+	// Ask the class what they think will happen when you run this command,
+	// even though a capital doesn't exist
+	db.iWantToGoTo.update({"country": "Morocco"}, {$set: {"capital":"Rabat"}})
+	// answer: it will create the field
+	
+
+	// And show the field can now be updated with the same command
+	db.iWantToGoTo.update({"country": "Morocco"}, {$set: {"capital":"RABAT"}})
+	
+
+	// Show how to push to an array with $push
+	db.iWantToGoTo.update({"country": "Morocco"}, {$push: {"majorcities":"Agadir"}})
+	
+
+	// Show how to delete an entry with db.[COLLECTION_NAME].remove()
+	db.iWantToGoTo.remove({"country":"Morocco"})
+	
+
+	// Show how to empty a collection with db.[COLLECTION_NAME].remove()
+	db.iWantToGoTo.remove({})
+	
+
+	// Show how to drop a collection with db.[COLLECTION_NAME].drop()
+	db.iWantToGoTo.drop()
+	
+	//Show all collections
+
+	show collections
+
+	// Show how to drop a database 
+	db.dropDatabase()
+
+	 * -/-/-/-/-/-/-/-/-/-/- */
+	
+
+	// Go back to your classroom database.
+	db
+	use classroom
+	
+
+	// You've decided to take on a new hobby. 
+	// Add Extreme Basketweaving to your array of hobbies.
+	db.classroom.update({name: "Steve"}, {$push: {"hobbies":"Extreme Basketweaving"}})
+	
+
+	// While practicing for your Extreme Basketweaving Competition, 
+	// you broke the computer of the person next to you. 
+	// They're using a new Operating System now. Change their os field.
+	db.classroom.update({name: "Steve"}, {$set: {os:"Windows"}})
+	
+
+	// Another student in your row saw you break that computer 
+	// and wisely decided to move. Remove them from your database.
+	db.classroom.remove({name: "Steve"})
+	
+
+	// You are worried everyone else will leave 
+	// and you'll have to sit all alone. 
+	// You decide to bribe everyone who didnt leave with candy. 
+	// Add a field of gavecandy with a value of false to everyone in the array 
+	// so you can keep track.
+	db.classroom.update({}, {$set: {gavecandy:false}}, {multi:true})
+	
+
+	// All this work made you hungry, so you bought yourself some candy. 
+	// Change the value of gavecandy to true in your entry.
+	db.classroom.update({name:'Jimmy'}, {$set: {gavecandy:true}})
+
